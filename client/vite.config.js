@@ -33,6 +33,30 @@ export default defineConfig({
       }
     })
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+              return 'vendor-react';
+            }
+            if (id.includes('jspdf') || id.includes('jspdf-autotable')) {
+              return 'vendor-jspdf';
+            }
+            if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
+              return 'vendor-chartjs';
+            }
+            if (id.includes('lucide-react')) {
+              return 'vendor-icons';
+            }
+            return 'vendor-core';
+          }
+        }
+      }
+    },
+    chunkSizeWarningLimit: 600
+  },
   server: {
     port: 4000,
     strictPort: true,

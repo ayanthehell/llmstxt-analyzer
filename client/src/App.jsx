@@ -1,30 +1,39 @@
-import React from 'react';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { ExternalLink, Moon, Sun } from 'lucide-react';
+import { ExternalLink, Moon, Sun, Loader2 } from 'lucide-react';
 import Logo from './components/Logo';
 import { ThemeProvider, useTheme } from './components/ThemeContext';
-
-import Home from './pages/Home';
-import Results from './pages/Results';
-import About from './pages/About';
-import Privacy from './pages/Privacy';
-import Admin from './pages/Admin';
-import BlogList from './pages/BlogList';
-import BlogDetail from './pages/BlogDetail';
-import Terms from './pages/Terms';
-import NotFound from './pages/NotFound';
 import { CMSProvider } from './components/CMSContext';
 
-import ToolsIndex from './pages/tools/ToolsIndex';
-import EmiCalculator from './pages/tools/EmiCalculator';
-import SipCalculator from './pages/tools/SipCalculator';
-import GstCalculator from './pages/tools/GstCalculator';
-import ElectricityBillCalculator from './pages/tools/ElectricityBillCalculator';
-import CgpaConverter from './pages/tools/CgpaConverter';
-import LandUnitConverter from './pages/tools/LandUnitConverter';
-import SalarySlipGenerator from './pages/tools/SalarySlipGenerator';
-import RentAgreementGenerator from './pages/tools/RentAgreementGenerator';
-import LeaveApplicationGenerator from './pages/tools/LeaveApplicationGenerator';
+const Home = lazy(() => import('./pages/Home'));
+const Results = lazy(() => import('./pages/Results'));
+const About = lazy(() => import('./pages/About'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const Admin = lazy(() => import('./pages/Admin'));
+const BlogList = lazy(() => import('./pages/BlogList'));
+const BlogDetail = lazy(() => import('./pages/BlogDetail'));
+const Terms = lazy(() => import('./pages/Terms'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
+const ToolsIndex = lazy(() => import('./pages/tools/ToolsIndex'));
+const EmiCalculator = lazy(() => import('./pages/tools/EmiCalculator'));
+const SipCalculator = lazy(() => import('./pages/tools/SipCalculator'));
+const GstCalculator = lazy(() => import('./pages/tools/GstCalculator'));
+const ElectricityBillCalculator = lazy(() => import('./pages/tools/ElectricityBillCalculator'));
+const CgpaConverter = lazy(() => import('./pages/tools/CgpaConverter'));
+const LandUnitConverter = lazy(() => import('./pages/tools/LandUnitConverter'));
+const SalarySlipGenerator = lazy(() => import('./pages/tools/SalarySlipGenerator'));
+const RentAgreementGenerator = lazy(() => import('./pages/tools/RentAgreementGenerator'));
+const LeaveApplicationGenerator = lazy(() => import('./pages/tools/LeaveApplicationGenerator'));
+const RobotsTxtGenerator = lazy(() => import('./pages/tools/RobotsTxtGenerator'));
+const LlmsTxtBuilder = lazy(() => import('./pages/tools/LlmsTxtBuilder'));
+
+const PageLoader = () => (
+  <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-4">
+    <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+    <p className="text-slate-500 font-medium animate-pulse">Loading...</p>
+  </div>
+);
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
@@ -131,30 +140,34 @@ function App() {
           <div className="min-h-screen bg-transparent font-sans selection:bg-blue-500/30 selection:text-blue-200 transition-colors duration-300">
             <Navbar />
           <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/results" element={<Results />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/blog" element={<BlogList />} />
-              <Route path="/blog/:slug" element={<BlogDetail />} />
-              <Route path="/admin" element={<Admin />} />
-              
-              {/* Tools Routes */}
-              <Route path="/tools" element={<ToolsIndex />} />
-              <Route path="/tools/emi-calculator" element={<EmiCalculator />} />
-              <Route path="/tools/sip-calculator" element={<SipCalculator />} />
-              <Route path="/tools/gst-calculator" element={<GstCalculator />} />
-              <Route path="/tools/electricity-bill-calculator" element={<ElectricityBillCalculator />} />
-              <Route path="/tools/cgpa-percentage-converter" element={<CgpaConverter />} />
-              <Route path="/tools/land-unit-converter" element={<LandUnitConverter />} />
-              <Route path="/tools/salary-slip-generator" element={<SalarySlipGenerator />} />
-              <Route path="/tools/rent-agreement-generator" element={<RentAgreementGenerator />} />
-              <Route path="/tools/leave-application-generator" element={<LeaveApplicationGenerator />} />
-              
-              <Route path="/terms" element={<Terms />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/results" element={<Results />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/blog" element={<BlogList />} />
+                <Route path="/blog/:slug" element={<BlogDetail />} />
+                <Route path="/admin" element={<Admin />} />
+                
+                {/* Tools Routes */}
+                <Route path="/tools" element={<ToolsIndex />} />
+                <Route path="/tools/emi-calculator" element={<EmiCalculator />} />
+                <Route path="/tools/sip-calculator" element={<SipCalculator />} />
+                <Route path="/tools/gst-calculator" element={<GstCalculator />} />
+                <Route path="/tools/electricity-bill-calculator" element={<ElectricityBillCalculator />} />
+                <Route path="/tools/cgpa-percentage-converter" element={<CgpaConverter />} />
+                <Route path="/tools/land-unit-converter" element={<LandUnitConverter />} />
+                <Route path="/tools/salary-slip-generator" element={<SalarySlipGenerator />} />
+                <Route path="/tools/rent-agreement-generator" element={<RentAgreementGenerator />} />
+                <Route path="/tools/leave-application-generator" element={<LeaveApplicationGenerator />} />
+                <Route path="/tools/robots-txt-generator" element={<RobotsTxtGenerator />} />
+                <Route path="/tools/llms-txt-builder" element={<LlmsTxtBuilder />} />
+                
+                <Route path="/terms" element={<Terms />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
           </main>
           <Footer />
         </div>

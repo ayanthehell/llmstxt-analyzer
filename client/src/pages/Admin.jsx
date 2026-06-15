@@ -679,6 +679,8 @@ const Admin = () => {
     { id: 'salarySlipGenerator', icon: Wrench, label: 'Salary Slip' },
     { id: 'rentAgreementGenerator', icon: Wrench, label: 'Rent Agreement' },
     { id: 'leaveApplicationGenerator', icon: Wrench, label: 'Leave App' },
+    { id: 'robotsTxtGenerator', icon: Wrench, label: 'Robots.txt Gen' },
+    { id: 'llmsTxtBuilder', icon: Wrench, label: 'llms.txt Builder' },
     { id: 'seo', icon: Settings, label: 'Global SEO' },
     { id: 'faqs', icon: HelpCircle, label: 'Global FAQs' },
     { id: 'blogs', icon: BookOpen, label: 'Blogs' },

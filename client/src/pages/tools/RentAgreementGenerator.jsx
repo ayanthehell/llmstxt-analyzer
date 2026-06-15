@@ -84,6 +84,30 @@ const SignaturePad = ({ id, label, onClear }) => {
     if (onClear) onClear();
   };
 
+  const handleUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = canvasRef.current;
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          // Calculate aspect ratio to fit image into canvas
+          const hRatio = canvas.width / img.width;
+          const vRatio = canvas.height / img.height;
+          const ratio = Math.min(hRatio, vRatio);
+          const centerShift_x = (canvas.width - img.width * ratio) / 2;
+          const centerShift_y = (canvas.height - img.height * ratio) / 2;
+          ctx.drawImage(img, 0, 0, img.width, img.height, centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-slate-200/50 p-4 rounded-xl text-center">
       <label className="block text-sm font-semibold text-slate-700 mb-2">{label}</label>
@@ -94,9 +118,15 @@ const SignaturePad = ({ id, label, onClear }) => {
         height="120" 
         className="bg-white border border-slate-200 shadow-sm rounded-lg w-full max-w-full cursor-crosshair mb-3 touch-none"
       />
-      <button onClick={clearCanvas} className="bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium text-xs px-4 py-2 rounded-lg transition-colors">
-        Clear Signature
-      </button>
+      <div className="flex gap-2 justify-center">
+        <button onClick={clearCanvas} className="bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium text-xs px-3 py-2 rounded-lg transition-colors">
+          Clear
+        </button>
+        <label className="bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium text-xs px-3 py-2 rounded-lg transition-colors cursor-pointer border border-blue-200">
+          Upload Image
+          <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
+        </label>
+      </div>
     </div>
   );
 };

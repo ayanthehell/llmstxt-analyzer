@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { Calculator, Percent, Zap, GraduationCap, Map, FileText, FileSignature, CalendarOff, IndianRupee } from 'lucide-react';
+import { Calculator, Percent, Zap, GraduationCap, Map, FileText, FileSignature, CalendarOff, IndianRupee, Bot, FileJson } from 'lucide-react';
 
 const tools = [
   {
@@ -66,6 +66,20 @@ const tools = [
     description: 'Generate formatted leave application letters for school, college, or office.',
     icon: <CalendarOff className="w-6 h-6 text-pink-500" />,
     path: '/tools/leave-application-generator'
+  },
+  {
+    id: 'robots-txt-generator',
+    title: 'AI Robots.txt Generator',
+    description: 'Generate an advanced robots.txt optimized for AI crawlers and LLMs.',
+    icon: <Bot className="w-6 h-6 text-blue-600" />,
+    path: '/tools/robots-txt-generator'
+  },
+  {
+    id: 'llms-txt-builder',
+    title: 'llms.txt Builder',
+    description: 'Create a semantic mapping file to guide AI agents and LLMs.',
+    icon: <FileJson className="w-6 h-6 text-emerald-600" />,
+    path: '/tools/llms-txt-builder'
   }
 ];
 

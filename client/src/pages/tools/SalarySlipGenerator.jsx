@@ -60,9 +60,21 @@ const SalarySlipGenerator = () => {
   const [annualCtc, setAnnualCtc] = useState('');
 
   const [company, setCompany] = useState('ABC Pvt Ltd');
+  const [logoBase64, setLogoBase64] = useState(null);
   const [payMonth, setPayMonth] = useState('2024-05');
   const [empName, setEmpName] = useState('John Doe');
   const [empDesig, setEmpDesig] = useState('Software Developer');
+
+  const handleLogoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoBase64(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const [basic, setBasic] = useState(30000);
   const [hra, setHra] = useState(12000);
@@ -134,6 +146,12 @@ const SalarySlipGenerator = () => {
     const doc = new jsPDF();
     
     // Header
+    if (logoBase64) {
+      // Add logo to the top left
+      // Assume max width/height for logo is 40x20
+      doc.addImage(logoBase64, 'PNG', 14, 15, 30, 15, undefined, 'FAST');
+    }
+
     doc.setFontSize(20);
     doc.text(company, 105, 20, null, null, "center");
     doc.setFontSize(12);
@@ -228,6 +246,10 @@ const SalarySlipGenerator = () => {
               <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} className="w-full glass-input rounded-xl px-4 py-3 text-slate-900 outline-none" />
             </div>
             <div>
+              <label className="block text-xs font-semibold text-slate-600 mb-1">Company Logo (Optional)</label>
+              <input type="file" accept="image/*" onChange={handleLogoUpload} className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 outline-none" />
+            </div>
+            <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1">Payslip Month</label>
               <input type="month" value={payMonth} onChange={(e) => setPayMonth(e.target.value)} className="w-full glass-input rounded-xl px-4 py-3 text-slate-900 outline-none" />
             </div>
@@ -277,7 +299,10 @@ const SalarySlipGenerator = () => {
         <div className="sticky top-24">
           <div className="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden text-slate-800">
             <div className="p-8">
-              <div className="text-center border-b-2 border-slate-200 pb-4 mb-6">
+              <div className="text-center border-b-2 border-slate-200 pb-4 mb-6 relative">
+                {logoBase64 && (
+                  <img src={logoBase64} alt="Company Logo" className="absolute left-0 top-0 h-12 object-contain" />
+                )}
                 <h2 className="text-2xl font-bold uppercase tracking-wide">{company || '-'}</h2>
                 <p className="text-slate-600 mt-1">Payslip for the month of {formatMonthYear(payMonth) || '-'}</p>
               </div>
