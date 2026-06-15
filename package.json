@@ -5,7 +5,7 @@
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "dev": "npm start",
-    "server": "cd server && npm start",
+    "server": "cd api && npm start",
     "client": "cd client && npm run dev"
   },
   "keywords": [],
