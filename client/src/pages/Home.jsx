@@ -118,28 +118,28 @@ const Home = () => {
           <Sparkles className="w-4 h-4" />
           <span>{home.heroTag || "Free AI Search Readiness Audit"}</span>
         </div>
-        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight text-gray-900">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight text-gray-900">
           {home.heroTitle || "Audit your llms.txt for AI search readiness"}
         </h1>
-        <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg sm:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed px-2">
           {home.heroSubtitle || "Check if your website is optimized for ChatGPT, Perplexity, and Google AI Overviews. Ensure LLMs can understand your content correctly."}
         </p>
 
         <form onSubmit={handleSubmit} className="relative max-w-xl mx-auto mb-10" id="analyzer-form">
           <div className="relative flex items-center group">
-            <Search className="absolute left-4 w-6 h-6 text-gray-500 group-focus-within:text-blue-500 transition-colors" />
+            <Search className="absolute left-4 w-5 h-5 sm:w-6 sm:h-6 text-gray-500 group-focus-within:text-blue-500 transition-colors" />
             <input
               type="text"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://example.com"
-              className="w-full glass-input rounded-full py-4 pl-14 pr-32 transition-colors text-lg placeholder-gray-500"
+              className="w-full glass-input rounded-full py-3 sm:py-4 pl-12 sm:pl-14 pr-24 sm:pr-32 transition-colors text-base sm:text-lg placeholder-gray-500"
               required
               id="url-input"
             />
             <button
               type="submit"
-              className="absolute right-2 glass-button-primary rounded-full px-6 py-2.5 font-medium"
+              className="absolute right-2 glass-button-primary rounded-full px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base font-medium"
               id="analyze-button"
             >
               Analyze

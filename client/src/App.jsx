@@ -15,12 +15,12 @@ const Navbar = () => (
   <nav className="glass-panel sticky top-0 z-50">
     <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
       <Link to="/" className="flex items-center gap-2 group">
-        <Activity className="w-6 h-6 text-blue-500 group-hover:text-blue-600 transition-colors" />
-        <span className="font-bold text-xl tracking-tight text-gray-800">
-          LLMS<span className="text-blue-500">.TXT</span> Analyzer
+        <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 group-hover:text-blue-600 transition-colors" />
+        <span className="font-bold text-lg sm:text-xl tracking-tight text-gray-800">
+          LLMS<span className="text-blue-500">.TXT</span><span className="hidden sm:inline"> Analyzer</span>
         </span>
       </Link>
-      <div className="flex items-center gap-6 text-sm font-medium">
+      <div className="flex items-center gap-3 sm:gap-6 text-xs sm:text-sm font-medium">
         <Link to="/blog" className="text-gray-600 hover:text-blue-600 transition-colors">Blog</Link>
         <Link to="/about" className="text-gray-600 hover:text-blue-600 transition-colors">About</Link>
         <a href="https://llmstxt.org/" target="_blank" rel="noreferrer" className="text-gray-600 hover:text-blue-600 transition-colors">Spec</a>

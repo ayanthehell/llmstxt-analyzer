@@ -131,14 +131,14 @@ const Results = () => {
       {showConfetti && <Confetti recycle={false} numberOfPieces={500} width={window.innerWidth} height={window.document.body.scrollHeight} />}
       <AdUnit slotId="3333333333" format="horizontal" className="mb-6" />
       
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
         <Link to="/" className="flex items-center gap-2 text-blue-600 hover:text-blue-500 transition-colors font-medium">
           <ArrowLeft className="w-5 h-5" />
           <span>Analyze another URL</span>
         </Link>
         <button
           onClick={downloadPDF}
-          className="flex items-center gap-2 px-4 py-2 glass-panel text-gray-700 hover:text-blue-600 hover:border-blue-300 rounded transition-colors text-sm font-medium"
+          className="flex items-center gap-2 px-4 py-2 glass-panel text-gray-700 hover:text-blue-600 hover:border-blue-300 rounded transition-colors text-sm font-medium w-full sm:w-auto justify-center"
         >
           <Download className="w-4 h-4" /> Export PDF
         </button>
@@ -238,25 +238,6 @@ const Results = () => {
 
       <LiveEditor rawText={data.rawText} onRescore={(text) => fetchData(url, text)} isScoring={isScoring} url={url} />
 
-      {/* Contextual CTA Section */}
-      <section className="mt-12 glass-panel p-8 rounded-2xl shadow-sm">
-        <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="flex-1">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Want to improve your score?</h2>
-            <p className="text-gray-600">
-              Use our <Link to="/generate" className="text-blue-600 hover:underline font-medium">free llms.txt generator</Link> to automatically create optimized llms.txt and llms-full.txt files for your website. Our AI-powered tool crawls your site and generates the perfect file structure.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 shrink-0">
-            <Link to="/generate" className="inline-flex items-center gap-2 glass-button-primary rounded-full px-6 py-3 font-semibold transition-all hover:shadow-lg">
-              <Sparkles className="w-5 h-5" /> Generate llms.txt
-            </Link>
-            <Link to="/about" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors justify-center">
-              Learn about GEO <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
