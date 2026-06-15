@@ -21,9 +21,87 @@ const Admin = () => {
   // Initialize form data when CMS data loads
   useEffect(() => {
     if (cmsData && !formData) {
-      setFormData(JSON.parse(JSON.stringify(cmsData))); // deep copy
+      const copy = JSON.parse(JSON.stringify(cmsData));
+      
+      if (!copy.robotsTxtGenerator) {
+        copy.robotsTxtGenerator = {
+          toolName: "AI Robots.txt Generator",
+          heroTitle: "AI-Optimized Robots.txt Generator",
+          heroSubtitle: "Instantly generate an advanced robots.txt file designed for Generative Engine Optimization (GEO) and AI crawler control.",
+          steps: [
+            { icon: "ShieldCheck", title: "Select Crawlers", description: "Choose which AI bots to allow or block." },
+            { icon: "LayoutGrid", title: "Add Directories", description: "Specify private routes to protect." },
+            { icon: "TrendingUp", title: "Generate File", description: "Download or copy the perfectly formatted robots.txt file." }
+          ],
+          whatIs: {
+            title: "What is an AI-Optimized robots.txt?",
+            subtitle: "Taking control of your data in the age of LLMs.",
+            p1: "A standard robots.txt tells search engines which pages they can crawl. An AI-optimized robots.txt specifically addresses crawlers used by Large Language Models.",
+            card1Title: "Protect Your Data",
+            card1Text: "Block aggressive AI crawlers from scraping your sensitive or paywalled data.",
+            card2Title: "Boost AI Visibility",
+            card2Text: "Explicitly allow bots like Google-Extended to ensure your site appears in AI Overviews.",
+            howItWorksTitle: "Key Directives for AI",
+            howItWorksP1: "Modern AI web crawlers look for specific User-agent strings:",
+            points: [
+              { title: "Google-Extended", desc: "Used for Google's AI Overviews." },
+              { title: "GPTBot", desc: "OpenAI's primary crawler." },
+              { title: "ClaudeBot", desc: "Anthropic's crawler." }
+            ]
+          },
+          useCases: [
+            { icon: "Code2", title: "Developers", desc: "Protect API routes." },
+            { icon: "Building2", title: "Publishers", desc: "Control your content narrative." },
+            { icon: "Search", title: "SEO Experts", desc: "Optimize for GEO." },
+            { icon: "Users", title: "Bloggers", desc: "Ensure your posts are crawled by Perplexity." }
+          ],
+          faqs: [
+            { question: "Should I block all AI bots?", answer: "No, if you want your site to appear in AI search results you must allow their bots." }
+          ]
+        };
+      }
+
+      if (!copy.llmsTxtBuilder) {
+        copy.llmsTxtBuilder = {
+          toolName: "llms.txt Builder",
+          heroTitle: "Visual llms.txt Builder",
+          heroSubtitle: "Easily generate standard llms.txt files to optimize your website for AI models.",
+          steps: [
+            { icon: "Search", title: "Project Details", description: "Enter project name and base prompt." },
+            { icon: "LayoutGrid", title: "Add Modules", description: "List essential documentation." },
+            { icon: "TrendingUp", title: "Export File", description: "Download your llms.txt file." }
+          ],
+          whatIs: {
+            title: "What is an llms.txt file?",
+            subtitle: "The robots.txt equivalent for Large Language Models.",
+            p1: "An llms.txt file is a new standard designed to provide a structured, semantic map of a website for LLMs.",
+            card1Title: "Semantic Mapping",
+            card1Text: "Categorizes links to help AI understand your site's structure.",
+            card2Title: "Provide Context",
+            card2Text: "Allows you to explicitly provide a 'system prompt'.",
+            howItWorksTitle: "How to use it?",
+            howItWorksP1: "Simply place the generated file at the root of your domain.",
+            points: [
+              { title: "Standard Format", desc: "Uses standardized Markdown syntax." },
+              { title: "AI Overviews", desc: "Helps AI models cite your sources." },
+              { title: "Agentic Crawling", desc: "Guides autonomous AI agents." }
+            ]
+          },
+          useCases: [
+            { icon: "Code2", title: "SaaS Startups", desc: "Ensure ChatGPT cites your docs." },
+            { icon: "FileJson", title: "API Providers", desc: "Direct AI agents to your API reference." },
+            { icon: "Building2", title: "Enterprises", desc: "Control the narrative LLMs have about your company." },
+            { icon: "Users", title: "Open Source", desc: "Help developers use AI to navigate your codebase." }
+          ],
+          faqs: [
+            { question: "Where do I put the llms.txt file?", answer: "At the root directory of your website." }
+          ]
+        };
+      }
+
+      setFormData(copy);
     }
-  }, [cmsData]);
+  }, [cmsData, formData]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
