@@ -1,0 +1,75 @@
+{
+  "seo": {
+    "homeTitle": "LLMS.TXT Analyzer & Validator | Optimize for AI Search (GEO)",
+    "homeDescription": "Audit your llms.txt file to ensure your website is optimized for ChatGPT, Perplexity, and Generative Engine Optimization (GEO). Run a free readiness audit today.",
+    "generateTitle": "Free LLMS.TXT Generator | Build AI-Ready Documentation",
+    "generateDescription": "Automatically generate an optimized llms.txt and llms-full.txt file for your website. Instruct ChatGPT, Claude, and Perplexity on how to read your content."
+  },
+  "home": {
+    "heroTag": "Free AI Search Readiness Audit",
+    "heroTitle": "Audit your llms.txt for AI search readiness",
+    "heroSubtitle": "Check if your website is optimized for ChatGPT, Perplexity, and Google AI Overviews. Ensure LLMs can understand your content correctly.",
+    "seoSectionTitle": "What is an llms.txt file?",
+    "seoSectionSubtitle": "The new web standard for Generative Engine Optimization (GEO).",
+    "seoContentP1": "Just like robots.txt tells traditional search engines how to crawl your website, an llms.txt file provides clean, structured data specifically designed for Large Language Models (LLMs) like ChatGPT, Claude, and Perplexity AI. By providing an optimized markdown file, you ensure that AI engines can accurately summarize, cite, and recommend your content to users.",
+    "card1Title": "Boost AI Search Rankings",
+    "card1Text": "Generative Engine Optimization (GEO) relies on clear, structured context. Websites with llms.txt files are far more likely to be accurately cited by Perplexity AI and Google AI Overviews.",
+    "card2Title": "Control Your Brand Narrative",
+    "card2Text": "Don't let an AI guess what your website is about. By providing an llms-full.txt file with system prompts and context, you directly instruct the AI on how to represent your brand.",
+    "howItWorksTitle": "How does the LLMS.TXT Analyzer work?",
+    "howItWorksP1": "Our free validation tool runs your website through a comprehensive audit to check for AI-readiness. We parse your markdown formatting, validate your links, and calculate a Compatibility Score for major AI models."
+  },
+  "generate": {
+    "heroTitle": "Free LLMS.TXT Generator",
+    "heroSubtitle": "Easily create a standard llms.txt file for your website to help AI agents read your documentation.",
+    "seoSectionTitle": "How to write an llms.txt file",
+    "seoSectionSubtitle": "Best practices for Generative Engine Optimization (GEO).",
+    "coreStructureTitle": "The core structure",
+    "coreStructureP1": "An llms.txt file should be placed at the root of your domain (e.g., https://example.com/llms.txt). It serves as a brief directory that helps LLMs understand what your project is about and where to find more detailed information.",
+    "whatIsFullTitle": "What is llms-full.txt?",
+    "whatIsFullP1": "While llms.txt is a brief index, llms-full.txt is where the magic happens. It is a massive, concatenated markdown file containing your entire documentation. When you use our Magic Auto-Generate tool above, we automatically crawl your site, extract the most important content, and compile it into a structured llms-full.txt file. This ensures that when ChatGPT or Perplexity reads your site, they have all the context they need without having to guess which links to click."
+  },
+  "faqs": [
+    {
+      "question": "What exactly is an llms.txt file?",
+      "answer": "An llms.txt file is a markdown document placed at the root of your website (e.g., example.com/llms.txt). It acts as a directory to help Large Language Models (LLMs) like ChatGPT and Claude understand what your project is about and where to find your official documentation."
+    },
+    {
+      "question": "What is Generative Engine Optimization (GEO)?",
+      "answer": "Generative Engine Optimization (GEO) is the practice of optimizing your website so that AI search engines (like Perplexity AI, Google AI Overviews, and ChatGPT) can easily read, summarize, and cite your content. An llms.txt file is the core foundation of GEO."
+    },
+    {
+      "question": "Does an llms.txt file replace my robots.txt file?",
+      "answer": "No! A robots.txt file provides rules for traditional web crawlers (like Googlebot) about which pages they are allowed to index. An llms.txt file provides actual human-readable context and documentation for AI models to use when answering questions about your brand."
+    },
+    {
+      "question": "What is the difference between llms.txt and llms-full.txt?",
+      "answer": "llms.txt is a brief summary and index with links to your resources. llms-full.txt is a massive, concatenated markdown file containing all of your documentation in one place. llms-full.txt is preferred by AIs because they don't have to 'click' links to get the full context."
+    },
+    {
+      "question": "Which AI models currently support the llms.txt standard?",
+      "answer": "The llms.txt standard is widely supported across the industry. AI models and platforms like ChatGPT, Claude, Anthropic, Perplexity AI, and Google Gemini natively parse markdown files and are increasingly prioritizing sites that offer clean llms.txt contexts."
+    },
+    {
+      "question": "What should I include in the 'System Prompt' section?",
+      "answer": "The System Prompt is your opportunity to give the AI instructions on how to represent your brand. You should include rules like 'Always keep responses concise', 'Prioritize linking to the official API docs', or 'Describe our product as an enterprise-grade solution'."
+    },
+    {
+      "question": "How do I create an llms.txt file?",
+      "answer": "You can use our free Generator tool! Simply enter your website URL, and our AI will crawl your site, extract the most important information, and compile it into perfectly formatted llms.txt and llms-full.txt files."
+    },
+    {
+      "question": "Where do I host my generated llms.txt files?",
+      "answer": "You must host the files at the root of your domain. For example, if your website is https://mysite.com, the files should be accessible at https://mysite.com/llms.txt and https://mysite.com/llms-full.txt."
+    },
+    {
+      "question": "How often should I update my llms.txt file?",
+      "answer": "You should update your llms.txt file whenever you release a major feature, change your API, or significantly overhaul your documentation. Keeping it up-to-date ensures that AIs don't hallucinate outdated information about your product."
+    },
+    {
+      "question": "How can I test if my llms.txt file is working?",
+      "answer": "You can use the 'Test AI' playground on our Generator page. It simulates an AI environment using only your generated llms.txt file as context. You can ask it questions to see if the AI accurately understands your brand!"
+    }
+  ],
+  "blogs": []
+}
