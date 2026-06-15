@@ -1,4 +1,111 @@
+# ==========================================
+# Advanced robots.txt for LLMS.TXT Analyzer
+# Optimized for SERPs and AI Platforms
+# ==========================================
+
+# ------------------------------------------
+# 1. Primary Search Engines
+# ------------------------------------------
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /results
+Disallow: /*?*
 
+# ------------------------------------------
+# 2. AI & LLM Crawlers (Explicitly Allowed)
+# ------------------------------------------
+# Google AI Overviews / Bard / Gemini
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /results
+
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /results
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+Disallow: /results
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /results
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /results
+
+# Anthropic / Claude
+User-agent: Anthropic-ai
+Allow: /
+Disallow: /admin
+Disallow: /results
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /results
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /admin
+Disallow: /results
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+Disallow: /admin
+Disallow: /results
+
+# Meta / Facebook AI
+User-agent: facebookexternalhit
+Allow: /
+Disallow: /admin
+
+# Applebot (Siri / Apple Intelligence)
+User-agent: Applebot
+Allow: /
+Disallow: /admin
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+
+# Omgili (Used by various LLMs)
+User-agent: OmgiliBot
+Allow: /
+Disallow: /admin
+
+User-agent: Omgili
+Allow: /
+Disallow: /admin
+
+# ByteDance (TikTok AI)
+User-agent: Bytespider
+Allow: /
+Disallow: /admin
+
+# ------------------------------------------
+# 3. Aggressive/Low-Value Bots
+# ------------------------------------------
+User-agent: Baiduspider
+Crawl-delay: 10
+
+User-agent: YandexBot
+Crawl-delay: 10
+
+# ------------------------------------------
+# 4. Sitemaps & LLMS Configuration
+# ------------------------------------------
 Sitemap: https://www.llmstxt.in.net/sitemap.xml
+# LLMS specific paths
+Allow: /llms.txt
+Allow: /llms-full.txt
