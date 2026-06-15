@@ -1,3 +1,9 @@
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+
+// Initialize Firebase Admin for Firestore
+admin.initializeApp();
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -47,11 +53,5 @@ app.get('/llms-full.txt', (req, res) => {
   }
 });
 
-if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
-}
-
-// Export for Vercel Serverless Functions
-module.exports = app;
+// Export for Firebase Cloud Functions
+exports.api = functions.https.onRequest(app);

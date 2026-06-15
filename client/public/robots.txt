@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://llmstxt-analyzer.com/sitemap.xml
+Sitemap: https://www.llmstxt.in.net/sitemap.xml

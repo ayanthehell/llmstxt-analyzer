@@ -1,102 +1,52 @@
-import { useEffect } from 'react';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
-const SITE_URL = 'https://llmstxt-analyzer.com';
+const SITE_URL = 'https://www.llmstxt.in.net';
 const SITE_NAME = 'LLMS.TXT Analyzer';
 
 /**
- * SEO Component — Manages document head for SEO.
+ * SEO Component — Manages document head for SEO using Helmet.
  * 
  * Props:
  * - title: Page title
  * - description: Meta description
- * - canonical: Canonical path (e.g., "/about") — auto-prepends SITE_URL
+ * - canonical: Canonical path (e.g., "/about")
  * - ogImage: Open Graph image URL
  * - schema: JSON-LD structured data object or array of objects
- * - twitterCard: "summary" | "summary_large_image" (default: "summary")
+ * - twitterCard: "summary" | "summary_large_image"
  */
 const SEO = ({ title, description, canonical, ogImage, schema, twitterCard = 'summary' }) => {
-  const schemaString = schema ? JSON.stringify(schema) : '';
+  const fullCanonical = canonical ? (canonical.startsWith('http') ? canonical : `${SITE_URL}${canonical}`) : null;
+  const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 
-  useEffect(() => {
-    // --- Title ---
-    if (title) {
-      document.title = title;
-      setMeta('property', 'og:title', title);
-      setMeta('name', 'twitter:title', title);
-    }
+  return (
+    <Helmet>
+      {title && <title>{title}</title>}
+      {title && <meta property="og:title" content={title} />}
+      {title && <meta name="twitter:title" content={title} />}
 
-    // --- Description ---
-    if (description) {
-      setMeta('name', 'description', description);
-      setMeta('property', 'og:description', description);
-      setMeta('name', 'twitter:description', description);
-    }
+      {description && <meta name="description" content={description} />}
+      {description && <meta property="og:description" content={description} />}
+      {description && <meta name="twitter:description" content={description} />}
 
-    // --- Canonical URL ---
-    if (canonical) {
-      const fullCanonical = canonical.startsWith('http') ? canonical : `${SITE_URL}${canonical}`;
-      let link = document.querySelector('link[rel="canonical"]');
-      if (!link) {
-        link = document.createElement('link');
-        link.setAttribute('rel', 'canonical');
-        document.head.appendChild(link);
-      }
-      link.setAttribute('href', fullCanonical);
-      setMeta('property', 'og:url', fullCanonical);
-    }
+      {fullCanonical && <link rel="canonical" href={fullCanonical} />}
+      {fullCanonical && <meta property="og:url" content={fullCanonical} />}
 
-    // --- OG Image ---
-    if (ogImage) {
-      setMeta('property', 'og:image', ogImage);
-      setMeta('name', 'twitter:image', ogImage);
-    }
+      {ogImage && <meta property="og:image" content={ogImage} />}
+      {ogImage && <meta name="twitter:image" content={ogImage} />}
 
-    // --- Twitter Card ---
-    setMeta('name', 'twitter:card', twitterCard);
+      <meta name="twitter:card" content={twitterCard} />
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content={SITE_NAME} />
 
-    // --- OG Type ---
-    setMeta('property', 'og:type', 'website');
-    setMeta('property', 'og:site_name', SITE_NAME);
-
-    // --- JSON-LD Structured Data ---
-    // Remove any previously injected schemas from this component
-    const existingScripts = document.querySelectorAll('script[data-seo-component]');
-    existingScripts.forEach(s => s.remove());
-
-    if (schemaString) {
-      const parsedSchemas = JSON.parse(schemaString);
-      const schemas = Array.isArray(parsedSchemas) ? parsedSchemas : [parsedSchemas];
-      schemas.forEach((s, i) => {
-        const script = document.createElement('script');
-        script.type = 'application/ld+json';
-        script.setAttribute('data-seo-component', `schema-${i}`);
-        script.textContent = JSON.stringify(s);
-        document.head.appendChild(script);
-      });
-    }
-
-    // Cleanup on unmount
-    return () => {
-      const scripts = document.querySelectorAll('script[data-seo-component]');
-      scripts.forEach(s => s.remove());
-    };
-  }, [title, description, canonical, ogImage, schemaString, twitterCard]);
-
-  return null;
+      {schemas.map((s, i) => (
+        <script key={i} type="application/ld+json">
+          {JSON.stringify(s)}
+        </script>
+      ))}
+    </Helmet>
+  );
 };
-
-/**
- * Helper: Create or update a meta tag.
- */
-function setMeta(attr, key, value) {
-  let el = document.querySelector(`meta[${attr}="${key}"]`);
-  if (!el) {
-    el = document.createElement('meta');
-    el.setAttribute(attr, key);
-    document.head.appendChild(el);
-  }
-  el.setAttribute('content', value);
-}
 
 export default SEO;
 export { SITE_URL, SITE_NAME };

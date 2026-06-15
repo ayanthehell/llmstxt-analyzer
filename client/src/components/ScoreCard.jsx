@@ -39,11 +39,11 @@ const ScoreCard = ({ title, score, weight }) => {
     <div className="glass-panel p-5 rounded-lg flex flex-col justify-between group relative shadow-sm">
       <div className="flex justify-between items-start mb-3">
         <div className="flex items-center gap-2">
-          <h3 className="font-semibold text-gray-800">{title}</h3>
+          <h3 className="font-semibold text-slate-900">{title}</h3>
           <div className="relative cursor-help">
-            <Info className="w-4 h-4 text-gray-400 hover:text-blue-500 transition-colors" />
-            <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-3 bg-white/90 backdrop-blur-md text-xs text-gray-800 rounded shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10 whitespace-pre-wrap border border-gray-200">
-              <span className="font-bold text-blue-600 mb-1 block">Perfect Example:</span>
+            <Info className="w-4 h-4 text-slate-9000 hover:text-blue-400 transition-colors" />
+            <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-3 bg-white/95 backdrop-blur-md text-xs text-slate-800 rounded shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10 whitespace-pre-wrap border border-slate-300">
+              <span className="font-bold text-blue-400 mb-1 block">Perfect Example:</span>
               {exampleMap[title]}
             </div>
           </div>
@@ -52,13 +52,13 @@ const ScoreCard = ({ title, score, weight }) => {
           {Math.round(animatedScore)}
         </span>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2 shadow-inner">
+      <div className="w-full bg-slate-50 rounded-full h-2 shadow-inner">
         <div
           className={`${colorClass} h-2 rounded-full transition-all duration-1000 ease-out shadow-sm`}
           style={{ width: `${animatedScore}%` }}
         ></div>
       </div>
-      <div className="mt-2 text-xs text-gray-500 text-right">
+      <div className="mt-2 text-xs text-slate-9000 text-right">
         Weight: {weight}%
       </div>
     </div>

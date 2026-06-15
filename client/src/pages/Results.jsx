@@ -85,10 +85,10 @@ const Results = () => {
     return (
       <div className="min-h-[calc(100vh-140px)] flex flex-col items-center justify-center px-4 text-center">
         <AlertCircle className="w-16 h-16 text-red-500 mb-6" />
-        <h2 className="text-3xl font-bold mb-4 text-gray-900">Analysis Failed</h2>
-        <p className="text-gray-600 mb-8 max-w-md">{error}</p>
+        <h2 className="text-3xl font-bold mb-4 text-slate-900">Analysis Failed</h2>
+        <p className="text-slate-600 mb-8 max-w-md">{error}</p>
         <div className="flex gap-4">
-          <Link to="/" className="glass-panel text-gray-800 hover:text-blue-600 font-semibold rounded-full px-6 py-2.5 transition-colors">
+          <Link to="/" className="glass-panel text-slate-800 hover:text-blue-400 font-semibold rounded-full px-6 py-2.5 transition-colors">
             Try another URL
           </Link>
           <a href="https://llmstxt.org/" target="_blank" rel="noreferrer" className="glass-button-primary font-semibold rounded-full px-6 py-2.5 transition-colors">
@@ -138,7 +138,7 @@ const Results = () => {
         </Link>
         <button
           onClick={downloadPDF}
-          className="flex items-center gap-2 px-4 py-2 glass-panel text-gray-700 hover:text-blue-600 hover:border-blue-300 rounded transition-colors text-sm font-medium w-full sm:w-auto justify-center"
+          className="flex items-center gap-2 px-4 py-2 glass-panel text-slate-700 hover:text-blue-400 hover:border-blue-500/50 rounded transition-colors text-sm font-medium w-full sm:w-auto justify-center"
         >
           <Download className="w-4 h-4" /> Export PDF
         </button>
@@ -149,9 +149,9 @@ const Results = () => {
           <ScoreDial score={data.scores.overall} />
           
           <div className="flex-1">
-            <h1 className="text-3xl font-bold mb-2 text-gray-900">Audit Results</h1>
-            <p className="text-gray-600 text-lg flex items-center gap-2">
-              For: <a href={data.url} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">{data.url}</a>
+            <h1 className="text-3xl font-bold mb-2 text-slate-900">Audit Results</h1>
+            <p className="text-slate-600 text-lg flex items-center gap-2">
+              For: <a href={data.url} target="_blank" rel="noreferrer" className="text-blue-400 hover:underline">{data.url}</a>
             </p>
             {data.deepScanCompleted && (
               <p className="text-xs text-green-600 mt-2 font-medium">✓ Deep Scan Completed (Links Verified)</p>
@@ -162,24 +162,24 @@ const Results = () => {
         <ModelCompatibility rawText={data.rawText} />
 
         {data.scores.overall >= 90 && (
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8 flex flex-col md:flex-row items-center gap-6 shadow-sm">
-            <div className="bg-blue-500 text-white px-4 py-2 rounded-full font-bold text-sm tracking-wide shrink-0 shadow-md">
+          <div className="bg-blue-900/20 border border-blue-500/20 rounded-xl p-6 mb-8 flex flex-col md:flex-row items-center gap-6 shadow-sm">
+            <div className="bg-blue-500 text-slate-900 px-4 py-2 rounded-full font-bold text-sm tracking-wide shrink-0 shadow-md">
               🤖 VERIFIED AI READY
             </div>
             <div className="flex-1">
-              <h3 className="text-gray-900 font-bold mb-1">Excellent Score! Show it off.</h3>
-              <p className="text-sm text-gray-600 mb-3">Add this badge to your website to let others know your documentation is optimized for LLMs.</p>
+              <h3 className="text-slate-900 font-bold mb-1">Excellent Score! Show it off.</h3>
+              <p className="text-sm text-slate-600 mb-3">Add this badge to your website to let others know your documentation is optimized for LLMs.</p>
               <div className="flex items-center gap-2 glass-input p-2 rounded">
-                <Code2 className="w-5 h-5 text-gray-500 shrink-0" />
+                <Code2 className="w-5 h-5 text-slate-9000 shrink-0" />
                 <input 
                   type="text" 
                   readOnly 
                   value={`<a href="https://llmstxt-analyzer.com/results?url=${encodeURIComponent(data.url)}"><img src="https://llmstxt-analyzer.com/badge.svg" alt="AI Ready" /></a>`}
-                  className="w-full bg-transparent text-gray-600 text-xs font-mono focus:outline-none" 
+                  className="w-full bg-transparent text-slate-700 text-xs font-mono focus:outline-none" 
                 />
                 <button 
                   onClick={(e) => navigator.clipboard.writeText(e.target.previousSibling.value)}
-                  className="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-50 rounded text-xs text-gray-700 shadow-sm transition-colors"
+                  className="px-3 py-1 bg-white/5 border border-slate-300 hover:bg-white/10 rounded text-xs text-slate-800 shadow-sm transition-colors"
                 >
                   Copy
                 </button>
@@ -200,32 +200,32 @@ const Results = () => {
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold mb-4 text-gray-900">Gap Analysis</h2>
+              <h2 className="text-2xl font-bold mb-4 text-slate-900">Gap Analysis</h2>
               <GapTable gaps={data.gaps} />
             </div>
           </div>
           
           <div className="lg:col-span-4 space-y-8">
             <div className="glass-panel p-6 rounded-xl shadow-md">
-              <h3 className="font-bold text-gray-900 text-lg mb-4">Quick Stats</h3>
+              <h3 className="font-bold text-slate-900 text-lg mb-4">Quick Stats</h3>
               <ul className="space-y-3 text-sm">
                 <li className="flex justify-between">
-                  <span className="text-gray-600">Sections Found:</span>
-                  <span className="font-mono font-medium text-gray-900">{data.parsedData.sections.length}</span>
+                  <span className="text-slate-600">Sections Found:</span>
+                  <span className="font-mono font-medium text-slate-900">{data.parsedData.sections.length}</span>
                 </li>
                 <li className="flex justify-between">
-                  <span className="text-gray-600">Total Links:</span>
-                  <span className="font-mono font-medium text-gray-900">
+                  <span className="text-slate-600">Total Links:</span>
+                  <span className="font-mono font-medium text-slate-900">
                     {data.parsedData.sections.reduce((acc, sec) => acc + sec.links.length, 0)}
                   </span>
                 </li>
                 <li className="flex justify-between">
-                  <span className="text-gray-600">Title Configured:</span>
-                  <span className="font-mono font-medium text-gray-900">{data.parsedData.title ? 'Yes' : 'No'}</span>
+                  <span className="text-slate-600">Title Configured:</span>
+                  <span className="font-mono font-medium text-slate-900">{data.parsedData.title ? 'Yes' : 'No'}</span>
                 </li>
                 <li className="flex justify-between">
-                  <span className="text-gray-600">Summary Configured:</span>
-                  <span className="font-mono font-medium text-gray-900">{data.parsedData.summary ? 'Yes' : 'No'}</span>
+                  <span className="text-slate-600">Summary Configured:</span>
+                  <span className="font-mono font-medium text-slate-900">{data.parsedData.summary ? 'Yes' : 'No'}</span>
                 </li>
               </ul>
             </div>

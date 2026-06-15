@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Lock, Save, LayoutTemplate, FileText, Settings, Loader2, CheckCircle2, HelpCircle, Plus, Trash2, BookOpen, Edit2, ArrowLeft } from 'lucide-react';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
+import { Lock, Save, LayoutTemplate, FileText, Settings, Loader2, CheckCircle2, HelpCircle, Plus, Trash2, BookOpen, Edit2, ArrowLeft, Wrench } from 'lucide-react';
 import { useCMS } from '../components/CMSContext';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -26,16 +28,11 @@ const Admin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoginError('');
-    // Try a dummy save to verify password
     try {
-      let apiUrl = '/api/cms';
-      if (import.meta.env.VITE_API_URL) apiUrl = import.meta.env.VITE_API_URL.replace('/analyze', '/cms');
-      
-      // We send the existing data to verify
-      await axios.post(apiUrl, { data: cmsData || {}, password });
+      await signInWithEmailAndPassword(auth, 'admin@llmstxt.in.net', password);
       setIsAuthenticated(true);
     } catch (err) {
-      setLoginError('Invalid password.');
+      setLoginError('Invalid password or user not found. Ensure admin@llmstxt.in.net exists in Firebase Auth.');
     }
   };
 
@@ -43,15 +40,14 @@ const Admin = () => {
     setIsSaving(true);
     setSaveSuccess(false);
     try {
-      let apiUrl = '/api/cms';
-      if (import.meta.env.VITE_API_URL) apiUrl = import.meta.env.VITE_API_URL.replace('/analyze', '/cms');
-      
-      await axios.post(apiUrl, { data: formData, password });
+      const docRef = doc(db, "content", "website");
+      await setDoc(docRef, formData);
       await refreshCMS();
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
-      alert('Failed to save changes.');
+      alert('Failed to save changes. Make sure you are logged in and have permission.');
+      console.error(err);
     } finally {
       setIsSaving(false);
     }
@@ -65,6 +61,104 @@ const Admin = () => {
         [key]: value
       }
     }));
+  };
+
+  const handleNestedChange = (section, parentKey, childKey, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [parentKey]: {
+          ...prev[section]?.[parentKey],
+          [childKey]: value
+        }
+      }
+    }));
+  };
+
+  const handleArrayChange = (section, arrayKey, index, field, value) => {
+    setFormData(prev => {
+      const newArray = [...(prev[section]?.[arrayKey] || [])];
+      newArray[index] = { ...newArray[index], [field]: value };
+      return {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [arrayKey]: newArray
+        }
+      };
+    });
+  };
+
+  const addArrayItem = (section, arrayKey, template) => {
+    setFormData(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [arrayKey]: [...(prev[section]?.[arrayKey] || []), template]
+      }
+    }));
+  };
+
+  const removeArrayItem = (section, arrayKey, index) => {
+    setFormData(prev => {
+      const newArray = [...(prev[section]?.[arrayKey] || [])];
+      newArray.splice(index, 1);
+      return {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [arrayKey]: newArray
+        }
+      };
+    });
+  };
+
+  const handleNestedArrayChange = (section, parentKey, arrayKey, index, field, value) => {
+    setFormData(prev => {
+      const newArray = [...(prev[section]?.[parentKey]?.[arrayKey] || [])];
+      newArray[index] = { ...newArray[index], [field]: value };
+      return {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [parentKey]: {
+            ...prev[section]?.[parentKey],
+            [arrayKey]: newArray
+          }
+        }
+      };
+    });
+  };
+
+  const addNestedArrayItem = (section, parentKey, arrayKey, template) => {
+    setFormData(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [parentKey]: {
+          ...prev[section]?.[parentKey],
+          [arrayKey]: [...(prev[section]?.[parentKey]?.[arrayKey] || []), template]
+        }
+      }
+    }));
+  };
+
+  const removeNestedArrayItem = (section, parentKey, arrayKey, index) => {
+    setFormData(prev => {
+      const newArray = [...(prev[section]?.[parentKey]?.[arrayKey] || [])];
+      newArray.splice(index, 1);
+      return {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [parentKey]: {
+            ...prev[section]?.[parentKey],
+            [arrayKey]: newArray
+          }
+        }
+      };
+    });
   };
 
   const handleFaqChange = (index, key, value) => {
@@ -171,6 +265,130 @@ const Admin = () => {
       [{ 'list': 'ordered'}, { 'list': 'bullet' }],
       ['link', 'clean']
     ],
+  };
+
+  const renderArrayInput = (sectionKey, arrayKey, itemTemplate) => {
+    const arr = formData[sectionKey]?.[arrayKey] || [];
+    return (
+      <div className="space-y-4 mb-6 border border-gray-200 rounded-2xl p-4 bg-gray-50/50">
+        <h4 className="font-bold text-gray-800 capitalize">{arrayKey}</h4>
+        {arr.map((item, idx) => (
+          <div key={idx} className="glass-panel p-4 rounded-xl border border-gray-200 relative">
+            <button 
+              onClick={() => removeArrayItem(sectionKey, arrayKey, idx)}
+              className="absolute top-2 right-2 text-red-500 hover:text-red-700 transition-colors"
+              title="Remove"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+            <div className="grid gap-3 pt-4">
+              {Object.keys(item).map(field => (
+                <div key={field}>
+                  <label className="block text-xs font-semibold text-gray-600 mb-1 capitalize">{field}</label>
+                  {field === 'answer' || field.includes('desc') || item[field].length > 100 ? (
+                    <textarea
+                      value={item[field]}
+                      onChange={e => handleArrayChange(sectionKey, arrayKey, idx, field, e.target.value)}
+                      className="w-full glass-input rounded-xl px-4 py-2 resize-none"
+                      rows="3"
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      value={item[field]}
+                      onChange={e => handleArrayChange(sectionKey, arrayKey, idx, field, e.target.value)}
+                      className="w-full glass-input rounded-xl px-4 py-2"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+        <button 
+          onClick={() => addArrayItem(sectionKey, arrayKey, itemTemplate)}
+          className="w-full py-2 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 font-medium hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 text-sm"
+        >
+          <Plus className="w-4 h-4" /> Add Item
+        </button>
+      </div>
+    );
+  };
+
+  const renderNestedArrayInput = (sectionKey, parentKey, arrayKey, itemTemplate) => {
+    const arr = formData[sectionKey]?.[parentKey]?.[arrayKey] || [];
+    return (
+      <div className="space-y-4 mb-4 border border-blue-100 rounded-xl p-4 bg-white shadow-sm">
+        <h5 className="font-bold text-blue-800 capitalize text-sm">{arrayKey}</h5>
+        {arr.map((item, idx) => (
+          <div key={idx} className="bg-slate-50 p-3 rounded-lg border border-gray-200 relative">
+            <button 
+              onClick={() => removeNestedArrayItem(sectionKey, parentKey, arrayKey, idx)}
+              className="absolute top-2 right-2 text-red-500 hover:text-red-700 transition-colors"
+              title="Remove"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+            <div className="grid gap-2 pt-4">
+              {Object.keys(item).map(field => (
+                <div key={field}>
+                  <label className="block text-[10px] uppercase font-bold text-gray-500 mb-1">{field}</label>
+                  <input
+                    type="text"
+                    value={item[field]}
+                    onChange={e => handleNestedArrayChange(sectionKey, parentKey, arrayKey, idx, field, e.target.value)}
+                    className="w-full glass-input rounded-lg px-3 py-1.5 text-sm"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+        <button 
+          onClick={() => addNestedArrayItem(sectionKey, parentKey, arrayKey, itemTemplate)}
+          className="w-full py-2 border border-dashed border-blue-300 rounded-lg text-blue-500 font-medium hover:bg-blue-50 transition-colors flex items-center justify-center gap-1 text-xs"
+        >
+          <Plus className="w-3 h-3" /> Add {arrayKey}
+        </button>
+      </div>
+    );
+  };
+
+  const renderObjectInput = (sectionKey, objKey) => {
+    const obj = formData[sectionKey]?.[objKey] || {};
+    return (
+      <div className="mb-6 border border-gray-200 rounded-2xl p-4 bg-gray-50/50">
+        <h4 className="font-bold text-gray-800 capitalize mb-4">{objKey}</h4>
+        <div className="space-y-4">
+          {Object.keys(obj).map(field => {
+            if (Array.isArray(obj[field])) {
+              let template = { title: '', desc: '' };
+              return <div key={field}>{renderNestedArrayInput(sectionKey, objKey, field, template)}</div>;
+            }
+            return (
+              <div key={field}>
+                <label className="block text-xs font-semibold text-gray-600 mb-1 capitalize">{field.replace(/([A-Z])/g, ' $1').trim()}</label>
+                {obj[field].length > 80 || obj[field].includes('<p>') || field.startsWith('p') || field.includes('Text') ? (
+                  <textarea
+                    value={obj[field]}
+                    onChange={e => handleNestedChange(sectionKey, objKey, field, e.target.value)}
+                    className="w-full glass-input rounded-xl px-4 py-2 resize-none"
+                    rows="3"
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    value={obj[field]}
+                    onChange={e => handleNestedChange(sectionKey, objKey, field, e.target.value)}
+                    className="w-full glass-input rounded-xl px-4 py-2"
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
   };
 
   const renderInputs = (sectionKey) => {
@@ -406,73 +624,91 @@ const Admin = () => {
       );
     }
 
-    return Object.keys(sectionData).map(key => (
-      <div key={key} className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
-          {key.replace(/([A-Z])/g, ' $1').trim()}
-        </label>
-        {sectionData[key].length > 100 || sectionData[key].includes('<p>') ? (
-          <div className="bg-white rounded-xl overflow-hidden border border-gray-200">
-            <ReactQuill 
-              theme="snow"
-              modules={quillModules}
-              value={sectionData[key]} 
-              onChange={(content) => handleChange(sectionKey, key, content)} 
+    // Generic Object Rendering
+    return Object.keys(sectionData).map(key => {
+      if (Array.isArray(sectionData[key])) {
+        // Steps, faqs, useCases
+        let template = { icon: 'Search', title: '', desc: '' };
+        if (key === 'faqs') template = { question: '', answer: '' };
+        if (key === 'steps') template = { icon: 'Search', title: '', description: '' };
+
+        return <div key={key}>{renderArrayInput(sectionKey, key, template)}</div>;
+      }
+
+      if (typeof sectionData[key] === 'object' && sectionData[key] !== null) {
+        // whatIs
+        return <div key={key}>{renderObjectInput(sectionKey, key)}</div>;
+      }
+
+      return (
+        <div key={key} className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+            {key.replace(/([A-Z])/g, ' $1').trim()}
+          </label>
+          {sectionData[key].length > 100 || sectionData[key].includes('<p>') ? (
+            <div className="bg-white rounded-xl overflow-hidden border border-gray-200">
+              <ReactQuill 
+                theme="snow"
+                modules={quillModules}
+                value={sectionData[key]} 
+                onChange={(content) => handleChange(sectionKey, key, content)} 
+              />
+            </div>
+          ) : (
+            <input
+              type="text"
+              value={sectionData[key]}
+              onChange={e => handleChange(sectionKey, key, e.target.value)}
+              className="w-full glass-input rounded-xl px-4 py-2"
             />
-          </div>
-        ) : (
-          <input
-            type="text"
-            value={sectionData[key]}
-            onChange={e => handleChange(sectionKey, key, e.target.value)}
-            className="w-full glass-input rounded-xl px-4 py-2"
-          />
-        )}
-      </div>
-    ));
+          )}
+        </div>
+      );
+    });
   };
 
+  const tabs = [
+    { id: 'home', icon: LayoutTemplate, label: 'Home Page' },
+    { id: 'about', icon: BookOpen, label: 'About Page' },
+    { id: 'emiCalculator', icon: Wrench, label: 'EMI Calculator' },
+    { id: 'sipCalculator', icon: Wrench, label: 'SIP Calculator' },
+    { id: 'gstCalculator', icon: Wrench, label: 'GST Calculator' },
+    { id: 'electricityBillCalculator', icon: Wrench, label: 'Electricity Bill' },
+    { id: 'cgpaConverter', icon: Wrench, label: 'CGPA Converter' },
+    { id: 'landUnitConverter', icon: Wrench, label: 'Land Converter' },
+    { id: 'salarySlipGenerator', icon: Wrench, label: 'Salary Slip' },
+    { id: 'rentAgreementGenerator', icon: Wrench, label: 'Rent Agreement' },
+    { id: 'leaveApplicationGenerator', icon: Wrench, label: 'Leave App' },
+    { id: 'seo', icon: Settings, label: 'Global SEO' },
+    { id: 'faqs', icon: HelpCircle, label: 'Global FAQs' },
+    { id: 'blogs', icon: BookOpen, label: 'Blogs' },
+  ];
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12 flex flex-col md:flex-row gap-8 min-h-[80vh]">
+    <div className="max-w-7xl mx-auto px-4 py-12 flex flex-col md:flex-row gap-8 min-h-[80vh]">
       {/* Sidebar */}
-      <div className="w-full md:w-64 shrink-0 space-y-2">
-        <div className="mb-8 px-4">
+      <div className="w-full md:w-64 shrink-0 space-y-1 h-[75vh] overflow-y-auto custom-scrollbar pr-2">
+        <div className="mb-6 px-4 sticky top-0 bg-white/80 backdrop-blur-md py-2 z-10">
           <h2 className="text-xl font-bold text-gray-900">CMS Admin</h2>
           <p className="text-sm text-gray-500">Manage page content</p>
         </div>
         
-        <button 
-          onClick={() => setActiveTab('home')}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors font-medium ${activeTab === 'home' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
-        >
-          <LayoutTemplate className="w-5 h-5" /> Home Page
-        </button>
-
-        <button 
-          onClick={() => setActiveTab('seo')}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors font-medium ${activeTab === 'seo' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
-        >
-          <Settings className="w-5 h-5" /> Global SEO
-        </button>
-        <button 
-          onClick={() => { setActiveTab('faqs'); setEditingBlogId(null); }}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors font-medium ${activeTab === 'faqs' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
-        >
-          <HelpCircle className="w-5 h-5" /> FAQs
-        </button>
-        <button 
-          onClick={() => { setActiveTab('blogs'); setEditingBlogId(null); }}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors font-medium ${activeTab === 'blogs' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
-        >
-          <BookOpen className="w-5 h-5" /> Blogs
-        </button>
+        {tabs.map(tab => (
+          <button 
+            key={tab.id}
+            onClick={() => { setActiveTab(tab.id); setEditingBlogId(null); }}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors text-left font-medium ${activeTab === tab.id ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
+          >
+            <tab.icon className="w-4 h-4 shrink-0" /> <span className="text-sm">{tab.label}</span>
+          </button>
+        ))}
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 glass-panel rounded-3xl p-6 md:p-8">
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
+      <div className="flex-1 glass-panel rounded-3xl p-6 md:p-8 h-[80vh] overflow-y-auto custom-scrollbar">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-gray-100 sticky top-0 bg-white/80 backdrop-blur-md z-10 pt-2">
           <h2 className="text-2xl font-bold text-gray-900 capitalize">
-            {activeTab === 'blogs' && editingBlogId ? 'Edit Blog' : `${activeTab} Editor`}
+            {activeTab === 'blogs' && editingBlogId ? 'Edit Blog' : `${activeTab.replace(/([A-Z])/g, ' $1').trim()} Editor`}
           </h2>
           <button 
             onClick={handleSave}
@@ -485,7 +721,7 @@ const Admin = () => {
           </button>
         </div>
 
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           {renderInputs(activeTab)}
         </div>
       </div>

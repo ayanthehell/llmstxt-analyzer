@@ -31,7 +31,7 @@ const ScoreDial = ({ score }) => {
           stroke="currentColor"
           strokeWidth="12"
           fill="transparent"
-          className="text-gray-200"
+          className="text-slate-800"
         />
         <circle
           cx="70"
@@ -47,10 +47,10 @@ const ScoreDial = ({ score }) => {
         />
       </svg>
       <div className="absolute flex flex-col items-center justify-center">
-        <span className="text-5xl font-mono font-bold transition-colors duration-1000 drop-shadow-sm" style={{ color }}>
+        <span className="text-5xl font-mono font-bold transition-colors duration-1000 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]" style={{ color, textShadow: `0 0 20px ${color}` }}>
           {Math.round(animatedScore)}
         </span>
-        <span className="text-sm text-gray-500 mt-1 font-medium">/ 100</span>
+        <span className="text-sm text-slate-9000 mt-1 font-medium">/ 100</span>
       </div>
     </div>
   );

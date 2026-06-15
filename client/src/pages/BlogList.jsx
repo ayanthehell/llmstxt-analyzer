@@ -57,27 +57,27 @@ const BlogList = () => {
 
       {/* Breadcrumb Navigation */}
       <nav className="w-full max-w-7xl mx-auto px-4 pt-8" aria-label="Breadcrumb">
-        <ol className="flex items-center gap-2 text-sm text-gray-500">
-          <li><Link to="/" className="hover:text-blue-600 transition-colors">Home</Link></li>
+        <ol className="flex items-center gap-2 text-sm text-slate-9000">
+          <li><Link to="/" className="hover:text-blue-400 transition-colors">Home</Link></li>
           <li><ChevronRight className="w-3 h-3" /></li>
-          <li className="text-gray-900 font-medium">Blog</li>
+          <li className="text-slate-800 font-medium">Blog</li>
         </ol>
       </nav>
       
       <div className="w-full max-w-7xl mx-auto px-4 py-16">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Latest Articles</h1>
-          <p className="text-xl text-gray-600">
-            Insights, guides, and news about <Link to="/about" className="text-blue-600 hover:underline">AI search readiness</Link> and Generative Engine Optimization.
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Latest Articles</h1>
+          <p className="text-xl text-slate-600">
+            Insights, guides, and news about <Link to="/about" className="text-blue-400 hover:underline">AI search readiness</Link> and Generative Engine Optimization.
           </p>
         </div>
 
         {blogs.length === 0 ? (
-          <div className="text-center py-20 text-gray-500 bg-white rounded-3xl border border-gray-100 shadow-sm max-w-2xl mx-auto">
-            <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-medium text-gray-900 mb-2">No posts yet</h3>
+          <div className="text-center py-20 text-slate-600 glass-panel max-w-2xl mx-auto">
+            <BookOpen className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+            <h3 className="text-xl font-medium text-slate-900 mb-2">No posts yet</h3>
             <p>Check back soon for new articles!</p>
-            <Link to="/" className="inline-block mt-6 text-blue-600 hover:underline font-medium">Try the Analyzer →</Link>
+            <Link to="/" className="inline-block mt-6 text-blue-400 hover:underline font-medium">Try the Analyzer →</Link>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -110,11 +110,11 @@ const BlogList = () => {
                     </time>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-blue-400 transition-colors">
                     {blog.title}
                   </h3>
                   
-                  <p className="text-gray-600 mb-6 line-clamp-3 flex-1 text-sm">
+                  <p className="text-slate-600 mb-6 line-clamp-3 flex-1 text-sm">
                     {blog.metaDescription || "Read more about this topic..."}
                   </p>
                   

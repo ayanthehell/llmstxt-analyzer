@@ -107,36 +107,36 @@ const ModelCompatibility = ({ rawText }) => {
 
   return (
     <div className="mt-8 mb-8">
-      <h2 className="text-2xl font-bold mb-4 text-gray-900 flex items-center gap-2">
-        <Bot className="w-6 h-6 text-indigo-600" />
+      <h2 className="text-2xl font-bold mb-4 text-slate-900 flex items-center gap-2">
+        <Bot className="w-6 h-6 text-blue-400" />
         AI Platform Compatibility
       </h2>
-      <p className="text-gray-600 mb-6">
-        Different AI platforms parse data differently. This section simulates how compatible your <code className="bg-gray-100 px-1 rounded">llms.txt</code> file is with the unique parsing strengths of major search and chat platforms.
+      <p className="text-slate-600 mb-6">
+        Different AI platforms parse data differently. This section simulates how compatible your <code className="bg-slate-50 px-1 rounded">llms.txt</code> file is with the unique parsing strengths of major search and chat platforms.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {platforms.map(platform => (
-          <div key={platform.id} className="glass-panel p-5 rounded-xl shadow-sm border border-white border-opacity-60 flex flex-col hover:shadow-md transition-shadow">
+          <div key={platform.id} className="glass-panel p-5 rounded-xl shadow-sm flex flex-col transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:-translate-y-1">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 {platform.icon}
-                <h3 className="font-bold text-gray-800">{platform.name}</h3>
+                <h3 className="font-bold text-slate-900">{platform.name}</h3>
               </div>
               <span className={`font-mono font-bold text-lg ${platform.score >= 90 ? 'text-green-600' : platform.score >= 70 ? 'text-yellow-600' : 'text-red-600'}`}>
                 {platform.score}%
               </span>
             </div>
             
-            <div className="w-full bg-gray-200 rounded-full h-2 mb-4 overflow-hidden">
+            <div className="w-full bg-slate-50 rounded-full h-2 mb-4 overflow-hidden">
               <div 
                 className={`h-2 rounded-full ${getScoreColor(platform.score)} transition-all duration-1000 ease-out`}
                 style={{ width: `${platform.score}%` }}
               ></div>
             </div>
 
-            <div className="mt-auto bg-white/50 rounded p-3 text-xs text-gray-700 leading-relaxed border border-gray-100">
-              <span className="font-semibold text-indigo-600">Justification: </span>
+            <div className="mt-auto bg-slate-100/50 rounded p-3 text-xs text-slate-700 leading-relaxed border border-slate-200">
+              <span className="font-semibold text-blue-400">Justification: </span>
               {platform.justification}
             </div>
           </div>
