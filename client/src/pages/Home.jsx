@@ -288,7 +288,6 @@ const Home = () => {
               <p className="text-sm text-gray-600">Control how AI shopping assistants describe your products, return policies, and brand values to consumers.</p>
             </div>
           </div>
-          </div>
         </div>
       </section>
 
