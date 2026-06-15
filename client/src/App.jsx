@@ -6,7 +6,6 @@ import Home from './pages/Home';
 import Results from './pages/Results';
 import About from './pages/About';
 import Privacy from './pages/Privacy';
-import Generate from './pages/Generate';
 import Admin from './pages/Admin';
 import BlogList from './pages/BlogList';
 import BlogDetail from './pages/BlogDetail';
@@ -23,7 +22,6 @@ const Navbar = () => (
       </Link>
       <div className="flex items-center gap-6 text-sm font-medium">
         <Link to="/blog" className="text-gray-600 hover:text-blue-600 transition-colors">Blog</Link>
-        <Link to="/generate" className="text-gray-600 hover:text-blue-600 transition-colors">Generator</Link>
         <Link to="/about" className="text-gray-600 hover:text-blue-600 transition-colors">About</Link>
         <a href="https://llmstxt.org/" target="_blank" rel="noreferrer" className="text-gray-600 hover:text-blue-600 transition-colors">Spec</a>
       </div>
@@ -53,7 +51,6 @@ const Footer = () => (
           <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Product</h4>
           <ul className="space-y-3 text-sm">
             <li><Link to="/" className="text-gray-400 hover:text-blue-400 transition-colors">Analyzer</Link></li>
-            <li><Link to="/generate" className="text-gray-400 hover:text-blue-400 transition-colors">Generator</Link></li>
             <li><Link to="/blog" className="text-gray-400 hover:text-blue-400 transition-colors">Blog</Link></li>
           </ul>
         </div>
@@ -73,7 +70,6 @@ const Footer = () => (
                 Google AI Overviews <ExternalLink className="w-3 h-3" />
               </a>
             </li>
-            <li><Link to="/generate#comparison" className="text-gray-400 hover:text-blue-400 transition-colors">llms.txt vs robots.txt</Link></li>
           </ul>
         </div>
 
@@ -109,7 +105,6 @@ function App() {
               <Route path="/results" element={<Results />} />
               <Route path="/about" element={<About />} />
               <Route path="/privacy" element={<Privacy />} />
-              <Route path="/generate" element={<Generate />} />
               <Route path="/blog" element={<BlogList />} />
               <Route path="/blog/:slug" element={<BlogDetail />} />
               <Route path="/admin" element={<Admin />} />

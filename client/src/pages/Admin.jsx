@@ -447,12 +447,7 @@ const Admin = () => {
         >
           <LayoutTemplate className="w-5 h-5" /> Home Page
         </button>
-        <button 
-          onClick={() => setActiveTab('generate')}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors font-medium ${activeTab === 'generate' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
-        >
-          <FileText className="w-5 h-5" /> Generator Page
-        </button>
+
         <button 
           onClick={() => setActiveTab('seo')}
           className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors font-medium ${activeTab === 'seo' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}

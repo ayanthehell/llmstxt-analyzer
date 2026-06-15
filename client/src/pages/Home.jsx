@@ -72,7 +72,6 @@ const Home = () => {
       "AI search readiness scoring",
       "Model compatibility analysis",
       "Gap analysis and recommendations",
-      "llms.txt and llms-full.txt generation",
       "AI search simulation"
     ]
   };
@@ -147,12 +146,6 @@ const Home = () => {
             </button>
           </div>
         </form>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
-          <Link to="/generate" className="flex items-center gap-2 text-gray-700 hover:text-blue-600 glass-panel px-4 py-2 rounded-lg transition-colors">
-            <Sparkles className="w-4 h-4" /> Generator
-          </Link>
-        </div>
       </div>
 
       {recentScans.length > 0 && (
@@ -207,7 +200,7 @@ const Home = () => {
               </div>
               <div className="text-sm font-bold text-green-600 mb-2">Step 3</div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Fix &amp; Optimize</h3>
-              <p className="text-gray-600">Use our gap analysis and <Link to="/generate" className="text-blue-600 hover:underline">free generator tool</Link> to fix issues and maximize your score for AI search engines.</p>
+              <p className="text-gray-600">Use our gap analysis to fix issues and maximize your score for AI search engines.</p>
             </div>
           </div>
         </div>
@@ -278,7 +271,7 @@ const Home = () => {
                 <Building2 className="w-6 h-6 text-purple-600 group-hover:text-white transition-colors" />
               </div>
               <h3 className="font-bold text-gray-900 mb-2">Digital Agencies</h3>
-              <p className="text-sm text-gray-600">Offer <Link to="/generate" className="text-blue-600 hover:underline">llms.txt generation</Link> as a premium GEO service to your clients alongside traditional SEO.</p>
+              <p className="text-sm text-gray-600">Offer GEO optimization services to your clients alongside traditional SEO.</p>
             </div>
             <div className="glass-panel p-6 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
               <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center mb-4 group-hover:bg-green-500 transition-colors">
@@ -295,10 +288,6 @@ const Home = () => {
               <p className="text-sm text-gray-600">Control how AI shopping assistants describe your products, return policies, and brand values to consumers.</p>
             </div>
           </div>
-          <div className="text-center mt-12">
-            <Link to="/generate" className="inline-flex items-center gap-2 glass-button-primary rounded-full px-8 py-3 font-semibold text-lg transition-all hover:shadow-lg">
-              Create Your llms.txt <ArrowRight className="w-5 h-5" />
-            </Link>
           </div>
         </div>
       </section>

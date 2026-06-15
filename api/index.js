@@ -4,7 +4,6 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const analyzeRoute = require('./routes/analyze');
-const generateRoute = require('./routes/generate');
 const chatRoute = require('./routes/chat');
 const simulateRoute = require('./routes/simulate');
 const scansRoute = require('./routes/scans');
@@ -18,7 +17,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/analyze', analyzeRoute);
-app.use('/api/generate-llmstxt', generateRoute);
 app.use('/api/chat', chatRoute);
 app.use('/api/simulate', simulateRoute);
 app.use('/api/scans', scansRoute);
